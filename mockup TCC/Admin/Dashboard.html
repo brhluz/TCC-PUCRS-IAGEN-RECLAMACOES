@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de Reclamações</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Estilos Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F3F4F6;
+            color: #111827;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: #FFFFFF;
+            border-right: 1px solid #E5E7EB;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+        }
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0056D2;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-item {
+            padding: 12px;
+            border-radius: 8px;
+            color: #4B5563;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Espaço entre ícone e texto */
+            transition: all 0.2s;
+        }
+        /* ícones  */
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        .nav-item.active { background-color: #EFF6FF; color: #0056D2; }
+        .nav-item:hover:not(.active) { background-color: #F9FAFB; }
+
+        /* Conteúdo Principal */
+        .main-content {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        /* Header do Dashboard */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .page-title h2 { font-size: 24px; font-weight: 700; }
+        .user-profile { font-size: 14px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px;}
+
+        /* Filtros */
+        .filters-bar {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #374151;
+            background-color: white;
+        }
+
+        /* Tabela de Chamados */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th {
+            background-color: #F9FAFB;
+            padding: 14px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #6B7280;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 14px;
+            color: #111827;
+        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #F9FAFB; cursor: pointer; }
+
+        /* Badges de Status e Categoria */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-new { background-color: #DBEAFE; color: #1E40AF; } 
+        .status-wip { background-color: #FEF3C7; color: #92400E; } 
+        .status-done { background-color: #D1FAE5; color: #065F46; } 
+
+        .ai-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #F3E8FF;
+            color: #6B21A8;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="brand">
+            <i class="fa-solid fa-rocket"></i> Admin
+        </div>
+        
+        <a href="#" class="nav-item active">
+            <i class="fa-solid fa-inbox"></i> Reclamações
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-gear"></i> Configurações
+        </a>
+        
+        <a href="#" class="nav-item" style="margin-top: auto; color: #EF4444;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div class="page-title">
+                <h2>Gerenciamento de Reclamações</h2>
+                <p style="font-size:14px; color:#666;">Visualize e classifique os tickets recebidos.</p>
+            </div>
+            <div class="user-profile">
+                <i class="fa-regular fa-circle-user" style="font-size: 20px;"></i> Olá, Atendente
+            </div>
+        </div>
+
+        <div class="filters-bar">
+            <span style="font-size: 14px; font-weight:600; color:#555;">
+                <i class="fa-solid fa-filter"></i> Filtrar por:
+            </span>
+            <select class="filter-select">
+                <option>Todas as Categorias</option>
+                <option>Logística</option>
+                <option>Financeiro</option>
+                <option>Técnico</option>
+            </select>
+            <select class="filter-select">
+                <option>Todos os Status</option>
+                <option>Recebida</option>
+                <option>Em Atendimento</option>
+                <option>Finalizado</option>
+            </select>
+            <button style="margin-left:auto; background:#0056D2; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer;">
+                <i class="fa-solid fa-rotate"></i> Atualizar
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Protocolo</th>
+                        <th>Data</th>
+                        <th>Cliente</th>
+                        <th>Classificação (IA)</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-family:monospace; color:#555;">#2025-8392</td>
+                        <td>04/12 09:00</td>
+                        <td>Maria da Silva</td>
+                        <td>
+                            <div class="ai-category">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Logística / Atraso
+                            </div>
+                        </td>
+                        <td><span class="badge status-new">Recebida</span></td>
+                        <td>
+                            <a href="#" style="color:#0056D2; font-weight:600; text-decoration:none;">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="font-family:monospace; color:#555;">#2025-8390</td>
+                        <td>03/12 14:20</td>
+                        <td>João Souza</td>
+                        <td>
+                            <div class="ai-category">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Financeiro / Cobrança
+                            </div>
+                        </td>
+                        <td><span class="badge status-wip">Em Atendimento</span></td>
+                        <td>
+                            <a href="#" style="color:#0056D2; font-weight:600; text-decoration:none;">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="font-family:monospace; color:#555;">#2025-8388</td>
+                        <td>02/12 10:15</td>
+                        <td>Ana Clara</td>
+                        <td>
+                            <div class="ai-category">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Produto / Defeito
+                            </div>
+                        </td>
+                        <td><span class="badge status-done">Finalizado</span></td>
+                        <td>
+                            <a href="#" style="color:#0056D2; font-weight:600; text-decoration:none;">
+                                <i class="fa-solid fa-eye"></i> Detalhes
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

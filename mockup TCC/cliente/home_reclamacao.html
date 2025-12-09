@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Reclamação - Conceito Figma</title>
+    <style>
+        /* Reset básico e Fontes */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #F8F9FB; /* Cor de fundo neutra */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #1A1A1A;
+        }
+
+        /* Container principal (Simulando o Frame do Figma Mobile) */
+        .container {
+            background-color: #FFFFFF;
+            width: 100%;
+            max-width: 420px; /* Largura típica de mobile */
+            padding: 32px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Header e UX Visual */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        /* Placeholder para a ilustração/ícone */
+        .illustration-placeholder {
+            width: 64px;
+            height: 64px;
+            background-color: #E8F0FE;
+            border-radius: 50%;
+            margin: 0 auto 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0056D2;
+            font-size: 24px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 15px;
+            color: #666666;
+            line-height: 1.4;
+        }
+
+        /* Estilos do Formulário */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        /* Estado de Foco (UX importante) */
+        .form-input:focus {
+            outline: none;
+            border-color: #0056D2;
+            box-shadow: 0 0 0 3px rgba(0, 86, 210, 0.1);
+        }
+        
+        /* Text Area específico */
+        textarea.form-input {
+            resize: vertical; /* Permite redimensionar apenas verticalmente */
+            height: 150px;
+        }
+
+        /* Texto de ajuda (UX enhancement) */
+        .help-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #888888;
+        }
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #888888;
+            margin-top: 4px;
+        }
+
+        /* Botões e Hierarquia */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        /* Botão Primário */
+        .btn-primary {
+            background-color: #0056D2; /* Azul de destaque */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0044A5;
+        }
+        /* Botão Secundário (Cancelar) */
+        .btn-secondary {
+            background-color: transparent;
+            color: #666666;
+        }
+        .btn-secondary:hover {
+            background-color: #F5F5F5;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div class="illustration-placeholder">
+                💬
+            </div>
+            <h1>Fale Conosco</h1>
+            <p>Não é necessário fazer login. Preencha os dados abaixo para registrarmos sua ocorrência e retornarmos com uma solução.</p>
+        </div>
+
+        <form>
+            <div class="form-group">
+                <label class="form-label" for="nome">Nome completo *</label>
+                <input class="form-input" type="text" id="nome" placeholder="Ex: Maria da Silva">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">E-mail para contato *</label>
+                <input class="form-input" type="email" id="email" placeholder="seu.email@exemplo.com">
+                <span class="help-text">Usaremos este e-mail apenas para enviar a resposta da sua solicitação.</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="reclamacao">Descreva sua reclamação *</label>
+                <textarea class="form-input" id="reclamacao" placeholder="Conte-nos com detalhes o que aconteceu. Inclua datas ou informações relevantes..."></textarea>
+                <div class="char-counter">0/500 caracteres</div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Enviar Reclamação</button>
+                <button type="button" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
