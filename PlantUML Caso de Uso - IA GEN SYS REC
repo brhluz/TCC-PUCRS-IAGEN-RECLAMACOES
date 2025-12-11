@@ -1,0 +1,52 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Cliente
+actor Atendente
+actor "Serviço de IA (LLM via API)" as LLM
+actor "Servidor de E-mail" as Email
+
+rectangle "Sistema de Classificação de Reclamações" {
+
+  ' --- Casos de uso do cliente ---
+  usecase "Registrar reclamação" as UC_Registrar
+  usecase "Receber protocolo de atendimento" as UC_Protocolo
+  usecase "Consultar status da reclamação" as UC_ConsultarStatus
+
+  ' --- Casos de uso do atendente (inclui admin) ---
+  usecase "Autenticar no painel" as UC_Login
+  usecase "Visualizar reclamações" as UC_Listar
+  usecase "Filtrar reclamações" as UC_Filtrar
+  usecase "Alterar status da reclamação" as UC_AlterarStatus
+
+  ' --- Casos internos do sistema ---
+  usecase "Classificar reclamação por IA" as UC_ClassificarIA
+  usecase "Dividir ticket (múltiplas ocorrências)" as UC_Split
+  usecase "Tratar erro de classificação" as UC_TratarErroIA
+}
+
+' --- Cliente ---
+Cliente --> UC_Registrar
+Cliente --> UC_ConsultarStatus
+' (sem ligação direta com UC_Protocolo – é incluído por UC_Registrar)
+
+' --- Atendente ---
+Atendente --> UC_Login
+Atendente --> UC_Listar
+Atendente --> UC_Filtrar
+Atendente --> UC_AlterarStatus
+
+' --- Serviços externos ---
+LLM --> UC_ClassificarIA
+Email --> UC_Protocolo
+
+' --- Include (pontilhado, seta para o caso incluído) ---
+UC_Registrar ..> UC_ClassificarIA : <<include>>
+UC_Registrar ..> UC_Protocolo    : <<include>>
+UC_Listar      ..> UC_Filtrar    : <<include>>
+
+' --- Extend (pontilhado, seta do opcional para o caso base) ---
+UC_Split        ..> UC_ClassificarIA : <<extend>>
+UC_TratarErroIA ..> UC_ClassificarIA : <<extend>>
+@enduml
