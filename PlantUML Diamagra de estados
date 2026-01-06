@@ -13,17 +13,8 @@ state FINALIZADO
 [*] --> RECEBIDA : Cliente envia reclamação\n(Status Inicial)
 
 RECEBIDA --> EM_ATENDIMENTO : Atendente inicia análise
-note right of RECEBIDA
-  A IA realiza a classificação automática,
-  mas o status permanece RECEBIDA
-  até a ação humana.
-end note
 
 EM_ATENDIMENTO --> FINALIZADO : Atendente registra resolução
-note right of EM_ATENDIMENTO
-  O atendente valida a categoria
-  e insere a solução final.
-end note
 
 ' Encerramento
 FINALIZADO --> [*] : Ciclo encerrado
