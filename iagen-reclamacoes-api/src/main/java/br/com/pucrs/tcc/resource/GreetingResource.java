@@ -1,4 +1,4 @@
-package br.com.pucrs.tcc.resource;
+package src.main.java.br.com.pucrs.tcc.resource;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
