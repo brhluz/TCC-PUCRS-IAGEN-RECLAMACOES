@@ -1,4 +1,4 @@
-package br.com.pucrs.tcc.resource;
+package br.com.pucrs.tcc;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
