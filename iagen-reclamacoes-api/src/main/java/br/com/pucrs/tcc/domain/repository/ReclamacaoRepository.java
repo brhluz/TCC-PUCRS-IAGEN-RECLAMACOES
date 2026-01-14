@@ -1,0 +1,15 @@
+package br.com.pucrs.tcc.domain.repository;
+
+import br.com.pucrs.tcc.domain.entity.Reclamacao;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import java.util.Optional;
+
+@ApplicationScoped
+public class ReclamacaoRepository implements PanacheRepositoryBase<Reclamacao, String> {
+
+    public Optional<Reclamacao> findByProtocolo(String protocolo) {
+        return find("protocolo", protocolo).firstResultOptional();
+    }
+}
