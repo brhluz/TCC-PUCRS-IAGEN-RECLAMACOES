@@ -12,7 +12,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-class MailServiceTest {
+class
+MailServiceTest {
 
     @Inject
     MailService mailService;
@@ -69,7 +70,6 @@ class MailServiceTest {
     @Test
     void naoDeveLancarExcecaoSeEmailFalhar() {
         // Este teste valida que exceções são tratadas internamente
-        // Em ambiente de teste com mock, não deve falhar, mas garante a estrutura
 
         assertDoesNotThrow(() -> {
             mailService.enviarNotificacaoProtocolo("invalido", "PROTO", "Teste");

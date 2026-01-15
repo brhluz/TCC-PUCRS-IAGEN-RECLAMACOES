@@ -41,7 +41,7 @@ public class Reclamacao extends PanacheEntityBase {
         this.criadoEm = LocalDateTime.now();
         this.atualizadoEm = LocalDateTime.now();
         if (this.status == null) {
-            this.status = StatusReclamacao.PENDENTE;
+            this.status = StatusReclamacao.RECEBIDA;
         }
     }
 
@@ -108,9 +108,9 @@ public class Reclamacao extends PanacheEntityBase {
     }
 
     public enum StatusReclamacao {
-        PENDENTE,
-        EM_ANALISE,
-        RESOLVIDA,
-        REJEITADA
+        RECEBIDA,
+        EM_ATENDIMENTO,
+        FINALIZADO,
+        PENDENTE_TRIAGEM_HUMANA
     }
 }

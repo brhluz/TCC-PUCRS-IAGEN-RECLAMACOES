@@ -1,4 +1,4 @@
-package br.com.pucrs.tcc.ai;
+package br.com.pucrs.tcc.domain.ai;
 
 public class Prompt {
     public Prompt() {
