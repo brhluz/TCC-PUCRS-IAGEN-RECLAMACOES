@@ -12,7 +12,7 @@ public class MailService {
     private static final Logger LOG = Logger.getLogger(MailService.class);
 
     @Inject
-    Mailer mailer;
+    MailerGateway mailerGateway;
 
     /**
      * Envia email de notificação com protocolo da reclamação
@@ -26,7 +26,7 @@ public class MailService {
             String assunto = "Reclamação Registrada - Protocolo: " + protocolo;
             String corpo = construirCorpoEmail(nomeUsuario, protocolo);
 
-            mailer.send(
+            mailerGateway.send(
                     Mail.withText(destinatario, assunto, corpo)
             );
 

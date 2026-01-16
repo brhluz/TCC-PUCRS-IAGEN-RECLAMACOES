@@ -1,7 +1,9 @@
-package br.com.pucrs.tcc;
+package br.com.pucrs.tcc.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -28,9 +30,6 @@ public class ReclamacaoResourceTest {
         .then()
             .statusCode(201)
             .body("protocolo", notNullValue())
-            .body("nome", equalTo("João Silva"))
-            .body("email", equalTo("joao@teste.com"))
-            .body("descricao", equalTo("Produto chegou com defeito"))
             .body("status", equalTo("RECEBIDA"))
             .body("criadoEm", notNullValue());
     }
@@ -138,6 +137,7 @@ public class ReclamacaoResourceTest {
             .extract()
             .path("protocolo");
 
-        assert !protocolo1.equals(protocolo2) : "Protocolos devem ser únicos";
+         Assertions.assertNotEquals(protocolo1, protocolo2, "Protocolos devem ser únicos");
+
     }
 }

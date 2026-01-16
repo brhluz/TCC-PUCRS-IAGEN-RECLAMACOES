@@ -1,4 +1,4 @@
-package br.com.pucrs.tcc;
+package br.com.pucrs.tcc.resource;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;

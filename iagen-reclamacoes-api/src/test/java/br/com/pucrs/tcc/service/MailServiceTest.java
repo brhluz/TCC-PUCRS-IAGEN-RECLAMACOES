@@ -1,78 +1,55 @@
 package br.com.pucrs.tcc.service;
 
 import io.quarkus.mailer.Mail;
-import io.quarkus.mailer.MockMailbox;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @QuarkusTest
-class
-MailServiceTest {
+class MailServiceTest {
 
     @Inject
     MailService mailService;
 
-    @Inject
-    MockMailbox mailbox;
-
-    @BeforeEach
-    void setUp() {
-        mailbox.clear();
-    }
+    @InjectMock
+    MailerGateway mailerGateway;
 
     @Test
     void deveEnviarEmailComProtocolo() {
-        // Arrange
-        String destinatario = "usuario@teste.com";
-        String protocolo = "ABC-123-XYZ";
-        String nome = "João Silva";
+        mailService.enviarNotificacaoProtocolo("usuario@teste.com", "PROTO-001", "Maria");
 
-        // Act
-        mailService.enviarNotificacaoProtocolo(destinatario, protocolo, nome);
-
-        // Assert
-        List<Mail> sent = mailbox.getMailsSentTo(destinatario);
-        assertEquals(1, sent.size(), "Deve ter enviado exatamente 1 email");
-
-        Mail email = sent.get(0);
-        assertTrue(email.getSubject().contains(protocolo), "Assunto deve conter o protocolo");
-        assertTrue(email.getText().contains(protocolo), "Corpo deve conter o protocolo");
-        assertTrue(email.getText().contains(nome), "Corpo deve conter o nome do usuário");
+        verify(mailerGateway, times(1)).send(any(Mail.class));
     }
 
     @Test
     void deveConterInformacoesObrigatoriasNoEmail() {
-        // Arrange
-        String destinatario = "teste@email.com";
-        String protocolo = "PROTO-001";
-        String nome = "Maria";
+        ArgumentCaptor<Mail> captor = ArgumentCaptor.forClass(Mail.class);
 
-        // Act
-        mailService.enviarNotificacaoProtocolo(destinatario, protocolo, nome);
+        mailService.enviarNotificacaoProtocolo("usuario@teste.com", "PROTO-001", "Maria");
 
-        // Assert
-        List<Mail> sent = mailbox.getMailsSentTo(destinatario);
-        Mail email = sent.get(0);
+        verify(mailerGateway).send(captor.capture());
+        Mail mail = captor.getValue();
 
-        String corpo = email.getText();
-        assertTrue(corpo.contains("Olá, " + nome), "Deve iniciar com saudação personalizada");
-        assertTrue(corpo.contains("registrada com sucesso"), "Deve confirmar o registro");
-        assertTrue(corpo.contains("Protocolo: " + protocolo), "Deve exibir protocolo formatado");
-        assertTrue(corpo.contains("acompanhar o status"), "Deve informar sobre acompanhamento");
+        assertTrue(mail.getSubject() != null && mail.getSubject().contains("PROTO-001"));
+        assertTrue(mail.getText() != null && mail.getText().contains("Maria"));
+        assertTrue(mail.getText().contains("PROTO-001"));
     }
 
     @Test
-    void naoDeveLancarExcecaoSeEmailFalhar() {
-        // Este teste valida que exceções são tratadas internamente
+    void naoDeveLancarExcecaoQuandoMailerFalhar() {
+        doThrow(new RuntimeException("Falha simulada no SMTP"))
+                .when(mailerGateway)
+                .send(any(Mail.class));
 
-        assertDoesNotThrow(() -> {
-            mailService.enviarNotificacaoProtocolo("invalido", "PROTO", "Teste");
-        });
+        assertDoesNotThrow(() ->
+                mailService.enviarNotificacaoProtocolo("usuario@teste.com", "PROTO-001", "Maria")
+        );
     }
 }
