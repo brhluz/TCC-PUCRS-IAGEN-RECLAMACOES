@@ -27,10 +27,10 @@ public class Reclamacao extends PanacheEntityBase {
     @Enumerated(EnumType.STRING)
     private StatusReclamacao status;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
-    @Column
+    @Column(name = "atualizado_em")
     private LocalDateTime atualizadoEm;
 
     @PrePersist
