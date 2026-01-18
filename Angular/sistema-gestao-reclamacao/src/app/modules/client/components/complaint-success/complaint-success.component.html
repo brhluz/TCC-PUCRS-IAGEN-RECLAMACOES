@@ -1,0 +1,17 @@
+<div class="success-container">
+  <div class="container">
+    <div class="icon-success">✓</div>
+    <h1>Reclamação Recebida!</h1>
+    <p>Recebemos sua solicitação com sucesso. Nossa IA já está analisando o conteúdo para direcionar ao setor responsável.</p>
+    
+    <div class="protocol-box">
+      <span class="protocol-label">Seu Protocolo de Atendimento</span>
+      <span class="protocol-number">{{ protocol }}</span>
+    </div>
+
+    <p class="email-notice">Enviamos uma cópia deste protocolo e o link de acompanhamento para seu e-mail.</p>
+
+    <button class="btn btn-primary" (click)="viewStatus()">Acompanhar Status</button>
+    <button class="btn btn-secondary" (click)="goHome()">Voltar ao início</button>
+  </div>
+</div>

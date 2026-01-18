@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="app-logo">🛡️</div>
+    <h1>Acesso Restrito</h1>
+    <p>Entre com suas credenciais de atendente para gerenciar os chamados.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="label">E-mail Corporativo</label>
+        <input 
+          type="email" 
+          class="input" 
+          formControlName="email"
+          placeholder="seu.nome@empresa.com"
+          [class.error]="submitted && f['email'].errors">
+        <div *ngIf="submitted && f['email'].errors" class="error-message">
+          <span *ngIf="f['email'].errors['required']">Email é obrigatório</span>
+          <span *ngIf="f['email'].errors['email']">Email inválido</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="label">Senha</label>
+        <input 
+          type="password" 
+          class="input" 
+          formControlName="password"
+          placeholder="••••••••"
+          [class.error]="submitted && f['password'].errors">
+        <div *ngIf="submitted && f['password'].errors" class="error-message">
+          <span *ngIf="f['password'].errors['required']">Senha é obrigatória</span>
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert-error">{{ error }}</div>
+
+      <button type="submit" class="btn-login">Entrar no Painel</button>
+    </form>
+
+    <a href="#" class="footer-link">Esqueceu sua senha?</a>
+  </div>
+</div>

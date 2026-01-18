@@ -1,0 +1,69 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">
+        <h2>Gerenciamento de Reclamações</h2>
+        <p>Visualize e classifique os tickets recebidos.</p>
+      </div>
+      <div class="user-profile">
+        <span>👤 Olá, {{ userName }}</span>
+      </div>
+    </div>
+
+    <div class="filters-bar">
+      <span class="filter-label">
+        🔍 Filtrar por:
+      </span>
+      <select class="filter-select" [(ngModel)]="filters.category" (change)="applyFilters()">
+        <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+      </select>
+      <select class="filter-select" [(ngModel)]="filters.status" (change)="applyFilters()">
+        <option *ngFor="let st of statuses" [value]="st.value">{{ st.label }}</option>
+      </select>
+      <button class="btn-refresh" (click)="loadComplaints()">
+        🔄 Atualizar
+      </button>
+    </div>
+
+    <div class="table-container" *ngIf="!loading">
+      <table>
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Classificação (IA)</th>
+            <th>Status</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let complaint of filteredComplaints" (click)="viewDetails(complaint.protocol!)">
+            <td class="protocol">{{ complaint.protocol }}</td>
+            <td>{{ formatDate(complaint.createdAt) }}</td>
+            <td>{{ complaint.customerName }}</td>
+            <td>
+              <div class="ai-category">
+                ✨ {{ complaint.aiCategory }}
+              </div>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="getStatusClass(complaint.status)">
+                {{ complaint.status }}
+              </span>
+            </td>
+            <td>
+              <a class="link-details" (click)="viewDetails(complaint.protocol!); $event.stopPropagation()">
+                👁️ Detalhes
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="loading" class="loading">Carregando...</div>
+  </div>
+</div>
