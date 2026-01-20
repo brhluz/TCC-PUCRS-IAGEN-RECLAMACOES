@@ -1,0 +1,5 @@
+include:
+  - path: ./iagen-reclamacoes-api/compose.yaml
+    project_directory: ./iagen-reclamacoes-api
+  #- path: ./sistema-gestao-reclamacao-web/compose.yaml
+  #  project_directory: ./sistema-gestao-reclamacao-web

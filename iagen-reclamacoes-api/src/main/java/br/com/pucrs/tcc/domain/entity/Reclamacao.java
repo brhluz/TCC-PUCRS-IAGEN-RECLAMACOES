@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "reclamacoes")
+@Table(name = "reclamacao")
 public class Reclamacao extends PanacheEntityBase {
 
     @Id

@@ -1,5 +1,11 @@
-*
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
-!target/quarkus-app/*
+.git
+.idea
+.vscode
+node_modules
+
+target
+!.mvn
+!mvnw
+!mvnw.cmd
+!pom.xml
+!src/**
