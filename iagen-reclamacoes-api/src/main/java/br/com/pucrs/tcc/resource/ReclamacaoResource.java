@@ -1,8 +1,11 @@
 package br.com.pucrs.tcc.resource;
 
+import br.com.pucrs.tcc.domain.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
+import br.com.pucrs.tcc.resource.dto.ReclamacaoClassificarRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoResponse;
+import br.com.pucrs.tcc.service.ClassificacaoService;
 import br.com.pucrs.tcc.service.MailService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -24,6 +27,9 @@ public class ReclamacaoResource {
 
     @Inject
     MailService mailService;
+
+    @Inject
+    ClassificacaoService classificacaoService;
 
     @POST
     @Transactional
@@ -52,6 +58,18 @@ public class ReclamacaoResource {
         return Response
             .status(Response.Status.CREATED)
             .entity(ReclamacaoResponse.from(reclamacao))
+            .build();
+    }
+
+    @POST
+    @Path("/classificar")
+    public Response classificar(@Valid ReclamacaoClassificarRequest request) {
+        LOG.infof("Recebendo solicitação de classificação");
+
+        ClassificacaoResponse classificacao = classificacaoService.classificar(request.getDescricao());
+
+        return Response
+            .ok(classificacao)
             .build();
     }
 }
