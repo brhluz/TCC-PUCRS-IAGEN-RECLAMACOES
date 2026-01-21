@@ -11,6 +11,15 @@ import java.util.UUID;
 public class Reclamacao extends PanacheEntityBase {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reclamacao_seq")
+    @SequenceGenerator(
+            name = "reclamacao_seq",
+            sequenceName = "reclamacao_seq",
+            allocationSize = 1
+    )
+    @Column(name = "id_reclamacao")
+    private Long idReclamacao;
+
     @Column(length = 36)
     private String protocolo;
 
