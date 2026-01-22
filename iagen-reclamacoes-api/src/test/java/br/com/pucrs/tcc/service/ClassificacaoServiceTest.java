@@ -4,9 +4,12 @@ import br.com.pucrs.tcc.domain.ClassificacaoItem;
 import br.com.pucrs.tcc.domain.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
+import br.com.pucrs.tcc.domain.exception.ClassificacaoException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
@@ -89,37 +92,53 @@ class ClassificacaoServiceTest {
     @Test
     @DisplayName("Deve retornar lista vazia quando IA não tem segurança")
     void deveRetornarVazioQuandoIaSemSeguranca() {
-        // Given
         String descricao = "Texto ambíguo sem contexto claro";
 
         ClassificacaoResponse aiResponse = new ClassificacaoResponse();
         aiResponse.setClassificacoes(Collections.emptyList());
 
-        when(aiService.classificar(anyString())).thenReturn(aiResponse);
+        when(aiService.classificar(descricao)).thenReturn(aiResponse);
 
-        // When
         ClassificacaoResponse resultado = service.classificar(descricao);
 
-        // Then
         assertNotNull(resultado);
         assertNotNull(resultado.getClassificacoes());
         assertTrue(resultado.getClassificacoes().isEmpty());
+
+        Mockito.verify(aiService).classificar(descricao);
+        Mockito.verifyNoMoreInteractions(aiService);
     }
 
     @Test
-    @DisplayName("Deve tratar timeout da IA retornando lista vazia")
+    @DisplayName("Deve lançar ClassificacaoException quando ocorrer erro interno/timeout não-HTTP")
     void deveTratarTimeoutDaIA() {
-        // Given
         String descricao = "Produto não chegou";
 
-        when(aiService.classificar(anyString())).thenThrow(new RuntimeException("Timeout"));
+        when(aiService.classificar(descricao)).thenThrow(new RuntimeException("Timeout"));
 
-        // When
-        ClassificacaoResponse resultado = service.classificar(descricao);
+        assertThrows(ClassificacaoException.class, () -> service.classificar(descricao));
 
-        // Then
-        assertNotNull(resultado);
-        assertNotNull(resultado.getClassificacoes());
-        assertTrue(resultado.getClassificacoes().isEmpty());
+        Mockito.verify(aiService).classificar(descricao);
+        Mockito.verifyNoMoreInteractions(aiService);
+    }
+
+    @Test
+    @DisplayName("Deve propagar WebApplicationException quando provedor retornar 429")
+    void devePropagarWebApplicationException429() {
+        String descricao = "Produto não chegou";
+
+        WebApplicationException ex = new WebApplicationException(
+                Response.status(429).build()
+        );
+
+        when(aiService.classificar(descricao)).thenThrow(ex);
+
+        WebApplicationException thrown =
+                assertThrows(WebApplicationException.class, () -> service.classificar(descricao));
+
+        assertEquals(429, thrown.getResponse().getStatus());
+
+        Mockito.verify(aiService).classificar(descricao);
+        Mockito.verifyNoMoreInteractions(aiService);
     }
 }

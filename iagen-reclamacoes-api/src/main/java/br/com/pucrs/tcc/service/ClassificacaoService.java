@@ -2,8 +2,10 @@ package br.com.pucrs.tcc.service;
 
 import br.com.pucrs.tcc.domain.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
+import br.com.pucrs.tcc.domain.exception.ClassificacaoException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
 
 import java.util.Collections;
@@ -17,8 +19,9 @@ public class ClassificacaoService {
     ReclamacaoAiService aiService;
 
     public ClassificacaoResponse classificar(String descricao) {
+        LOG.info("Iniciando classificação automática via IA");
+
         try {
-            LOG.infof("Iniciando classificação automática via IA");
             ClassificacaoResponse response = aiService.classificar(descricao);
 
             if (response == null || response.getClassificacoes() == null) {
@@ -26,13 +29,18 @@ public class ClassificacaoService {
                 return criarRespostaVazia();
             }
 
-            LOG.infof("Classificação concluída: %d departamento(s) identificado(s)",
-                      response.getClassificacoes().size());
+            LOG.infof("Classificação concluída: %d item(ns)", response.getClassificacoes().size());
             return response;
 
+        } catch (WebApplicationException e) {
+            LOG.errorf(e, "Falha ao chamar provedor de IA (status=%s): %s",
+                    (e.getResponse() != null ? e.getResponse().getStatus() : "null"),
+                    e.getMessage());
+            throw e;
+
         } catch (Exception e) {
-            LOG.errorf(e, "Erro ao classificar reclamação via IA: %s", e.getMessage());
-            return criarRespostaVazia();
+            LOG.error("Erro interno ao classificar reclamação", e);
+            throw new ClassificacaoException("Falha interna ao classificar reclamação.", e);
         }
     }
 

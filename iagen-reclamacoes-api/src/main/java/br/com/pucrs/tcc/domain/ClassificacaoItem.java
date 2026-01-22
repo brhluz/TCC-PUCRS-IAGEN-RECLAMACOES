@@ -1,8 +1,18 @@
 package br.com.pucrs.tcc.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class ClassificacaoItem {
+    @NotBlank
     private String departamento;
+
+    @NotBlank
     private String categoria;
+
+    @NotBlank
+    @Size(max = 200)
     private String motivoExtraido;
 
     public ClassificacaoItem() {
