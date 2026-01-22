@@ -18,7 +18,7 @@ class ClassificacaoResponseTest {
 
     @Test
     void deveRetornarUmaClassificacao() {
-        ClassificacaoItem item = new ClassificacaoItem("LOGISTICA", "Atraso na entrega");
+        ClassificacaoItem item = new ClassificacaoItem("LOGISTICA", "Atraso na entrega", "");
         ClassificacaoResponse response = new ClassificacaoResponse(List.of(item));
 
         assertEquals(1, response.getClassificacoes().size());
@@ -28,8 +28,8 @@ class ClassificacaoResponseTest {
 
     @Test
     void deveRetornarMultiplasClassificacoes() {
-        ClassificacaoItem item1 = new ClassificacaoItem("LOGISTICA", "Produto não entregue");
-        ClassificacaoItem item2 = new ClassificacaoItem("ATENDIMENTO_AO_CLIENTE", "Demora no atendimento ou no retorno");
+        ClassificacaoItem item1 = new ClassificacaoItem("LOGISTICA", "Produto não entregue", "");
+        ClassificacaoItem item2 = new ClassificacaoItem("ATENDIMENTO_AO_CLIENTE", "Demora no atendimento ou no retorno", "");
 
         ClassificacaoResponse response = new ClassificacaoResponse(List.of(item1, item2));
 

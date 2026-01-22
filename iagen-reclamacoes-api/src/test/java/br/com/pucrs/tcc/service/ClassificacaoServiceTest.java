@@ -47,7 +47,7 @@ class ClassificacaoServiceTest {
         ClassificacaoResponse resultado = service.classificar(descricao);
 
         // Then
-        Mockito.verify(aiService).classificar(anyString());
+        Mockito.verify(aiService).classificar(descricao);
 
         assertNotNull(resultado);
         assertNotNull(resultado.getClassificacoes());
