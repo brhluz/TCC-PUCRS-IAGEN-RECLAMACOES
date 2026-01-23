@@ -25,7 +25,7 @@ public class ClassificacaoService {
             ClassificacaoResponse response = aiService.classificar(descricao);
 
             if (response == null || response.getClassificacoes() == null) {
-                LOG.warn("IA retornou resposta nula ou sem classificações");
+                LOG.warn("IA não conseguiu classificar. Encaminhando para triagem humana.");
                 return criarRespostaVazia();
             }
 
@@ -39,7 +39,7 @@ public class ClassificacaoService {
             throw e;
 
         } catch (Exception e) {
-            LOG.error("Erro interno ao classificar reclamação", e);
+            LOG.error("Falha na classificação automática. Marcando para triagem humana.", e);
             throw new ClassificacaoException("Falha interna ao classificar reclamação.", e);
         }
     }
