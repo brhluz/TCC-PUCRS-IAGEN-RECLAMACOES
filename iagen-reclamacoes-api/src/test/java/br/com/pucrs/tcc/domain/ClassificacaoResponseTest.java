@@ -18,18 +18,30 @@ class ClassificacaoResponseTest {
 
     @Test
     void deveRetornarUmaClassificacao() {
-        ClassificacaoItem item = new ClassificacaoItem("LOGISTICA", "Atraso na entrega", "");
+        ClassificacaoItem item = new ClassificacaoItem(
+            Taxonomia.Departamento.LOGISTICA,
+            Taxonomia.Categoria.ATRASO_ENTREGA,
+            ""
+        );
         ClassificacaoResponse response = new ClassificacaoResponse(List.of(item));
 
         assertEquals(1, response.getClassificacoes().size());
-        assertEquals("LOGISTICA", response.getClassificacoes().get(0).getDepartamento());
-        assertEquals("Atraso na entrega", response.getClassificacoes().get(0).getCategoria());
+        assertEquals(Taxonomia.Departamento.LOGISTICA, response.getClassificacoes().get(0).getDepartamento());
+        assertEquals(Taxonomia.Categoria.ATRASO_ENTREGA, response.getClassificacoes().get(0).getCategoria());
     }
 
     @Test
     void deveRetornarMultiplasClassificacoes() {
-        ClassificacaoItem item1 = new ClassificacaoItem("LOGISTICA", "Produto não entregue", "");
-        ClassificacaoItem item2 = new ClassificacaoItem("ATENDIMENTO_AO_CLIENTE", "Demora no atendimento ou no retorno", "");
+        ClassificacaoItem item1 = new ClassificacaoItem(
+            Taxonomia.Departamento.LOGISTICA,
+            Taxonomia.Categoria.PRODUTO_NAO_ENTREGUE,
+            ""
+        );
+        ClassificacaoItem item2 = new ClassificacaoItem(
+            Taxonomia.Departamento.ATENDIMENTO_CLIENTE,
+            Taxonomia.Categoria.DEMORA_ATENDIMENTO,
+            ""
+        );
 
         ClassificacaoResponse response = new ClassificacaoResponse(List.of(item1, item2));
 

@@ -2,6 +2,7 @@ package br.com.pucrs.tcc.service;
 
 import br.com.pucrs.tcc.domain.ClassificacaoItem;
 import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.Taxonomia;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.domain.exception.ClassificacaoException;
@@ -36,10 +37,11 @@ class ClassificacaoServiceTest {
         // Given
         String descricao = "Meu pedido não chegou no prazo prometido";
 
-        ClassificacaoItem item = new ClassificacaoItem();
-        item.setDepartamento("Logística");
-        item.setCategoria("Atraso na entrega");
-        item.setMotivoExtraido("Pedido não entregue no prazo");
+        ClassificacaoItem item = new ClassificacaoItem(
+            Taxonomia.Departamento.LOGISTICA,
+            Taxonomia.Categoria.ATRASO_ENTREGA,
+            "Pedido não entregue no prazo"
+        );
 
         ClassificacaoResponse aiResponse = new ClassificacaoResponse();
         aiResponse.setClassificacoes(List.of(item));
@@ -55,8 +57,8 @@ class ClassificacaoServiceTest {
         assertNotNull(resultado);
         assertNotNull(resultado.getClassificacoes());
         assertEquals(1, resultado.getClassificacoes().size());
-        assertEquals("Logística", resultado.getClassificacoes().get(0).getDepartamento());
-        assertEquals("Atraso na entrega", resultado.getClassificacoes().get(0).getCategoria());
+        assertEquals(Taxonomia.Departamento.LOGISTICA, resultado.getClassificacoes().get(0).getDepartamento());
+        assertEquals(Taxonomia.Categoria.ATRASO_ENTREGA, resultado.getClassificacoes().get(0).getCategoria());
     }
 
     @Test
@@ -65,15 +67,17 @@ class ClassificacaoServiceTest {
         // Given
         String descricao = "O produto chegou atrasado e veio com defeito";
 
-        ClassificacaoItem itemLogistica = new ClassificacaoItem();
-        itemLogistica.setDepartamento("Logística");
-        itemLogistica.setCategoria("Atraso na entrega");
-        itemLogistica.setMotivoExtraido("Produto chegou atrasado");
+        ClassificacaoItem itemLogistica = new ClassificacaoItem(
+            Taxonomia.Departamento.LOGISTICA,
+            Taxonomia.Categoria.ATRASO_ENTREGA,
+            "Produto chegou atrasado"
+        );
 
-        ClassificacaoItem itemTecnico = new ClassificacaoItem();
-        itemTecnico.setDepartamento("Produto/Dep. Técnico");
-        itemTecnico.setCategoria("Produto com defeito");
-        itemTecnico.setMotivoExtraido("Produto veio com defeito");
+        ClassificacaoItem itemTecnico = new ClassificacaoItem(
+            Taxonomia.Departamento.PRODUTO_TECNICO,
+            Taxonomia.Categoria.PRODUTO_COM_DEFEITO,
+            "Produto veio com defeito"
+        );
 
         ClassificacaoResponse aiResponse = new ClassificacaoResponse();
         aiResponse.setClassificacoes(List.of(itemLogistica, itemTecnico));
