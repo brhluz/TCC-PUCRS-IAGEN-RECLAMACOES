@@ -1,4 +1,4 @@
-package br.com.pucrs.tcc.domain;
+package br.com.pucrs.tcc.domain.ai;
 
 import dev.langchain4j.model.output.structured.Description;
 

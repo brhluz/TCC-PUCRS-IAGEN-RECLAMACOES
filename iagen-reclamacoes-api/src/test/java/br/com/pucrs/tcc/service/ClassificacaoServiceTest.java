@@ -2,9 +2,8 @@ package br.com.pucrs.tcc.service;
 
 import br.com.pucrs.tcc.domain.ClassificacaoItem;
 import br.com.pucrs.tcc.domain.ClassificacaoResponse;
-import br.com.pucrs.tcc.domain.Taxonomia;
+import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
-import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.domain.exception.ClassificacaoException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;

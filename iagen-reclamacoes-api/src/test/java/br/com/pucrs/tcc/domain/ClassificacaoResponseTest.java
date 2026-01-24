@@ -1,5 +1,6 @@
 package br.com.pucrs.tcc.domain;
 
+import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

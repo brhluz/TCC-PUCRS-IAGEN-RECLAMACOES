@@ -1,6 +1,6 @@
 package br.com.pucrs.tcc.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
