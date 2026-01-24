@@ -7,7 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Optional;
 
 @ApplicationScoped
-public class ReclamacaoRepository implements PanacheRepositoryBase<Reclamacao, String> {
+public class ReclamacaoRepository implements PanacheRepositoryBase<Reclamacao, Long> {
 
     public Optional<Reclamacao> findByProtocolo(String protocolo) {
         return find("protocolo", protocolo).firstResultOptional();

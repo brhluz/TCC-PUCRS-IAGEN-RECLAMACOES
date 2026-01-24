@@ -24,8 +24,18 @@ public class ClassificacaoService {
         try {
             ClassificacaoResponse response = aiService.classificar(descricao);
 
-            if (response == null || response.getClassificacoes() == null) {
+            if (response == null || response.getClassificacoes() == null || response.getClassificacoes().isEmpty()) {
                 LOG.warn("IA não conseguiu classificar. Encaminhando para triagem humana.");
+                return criarRespostaVazia();
+            }
+
+            boolean invalido = response.getClassificacoes().stream()
+                    .anyMatch(item ->
+                            (item.getDepartamento()==null || item.getCategoria()==null || item.getMotivoExtraido()==null)
+            );
+
+            if(invalido){
+                LOG.warn("IA gerou respostas incosistentes. Encaminhando para triagem humana.");
                 return criarRespostaVazia();
             }
 

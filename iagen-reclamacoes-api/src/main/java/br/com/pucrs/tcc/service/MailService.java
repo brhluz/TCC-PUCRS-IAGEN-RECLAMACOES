@@ -33,7 +33,6 @@ public class MailService {
             LOG.infof("Email enviado com sucesso para %s - Protocolo: %s", destinatario, protocolo);
         } catch (Exception e) {
             LOG.errorf(e, "Erro ao enviar email para %s - Protocolo: %s", destinatario, protocolo);
-            // Não propaga exceção - falha de email não deve interromper o fluxo
         }
     }
 

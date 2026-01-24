@@ -6,9 +6,8 @@ import br.com.pucrs.tcc.resource.dto.ReclamacaoClassificarRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoResponse;
 import br.com.pucrs.tcc.service.ClassificacaoService;
-import br.com.pucrs.tcc.service.MailService;
+import br.com.pucrs.tcc.service.ReclamacaoService;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -26,35 +25,15 @@ public class ReclamacaoResource {
     private static final Logger LOG = Logger.getLogger(ReclamacaoResource.class);
 
     @Inject
-    MailService mailService;
+    ReclamacaoService reclamacaoService;
 
     @Inject
     ClassificacaoService classificacaoService;
 
     @POST
-    @Transactional
     public Response criar(@Valid ReclamacaoRequest request) {
-        LOG.infof("Recebendo nova reclamação de %s (%s)", request.getNome(), request.getEmail());
+        Reclamacao reclamacao = reclamacaoService.criar(request);
 
-        // Criar entidade
-        Reclamacao reclamacao = new Reclamacao();
-        reclamacao.setNome(request.getNome());
-        reclamacao.setEmail(request.getEmail());
-        reclamacao.setDescricao(request.getDescricao());
-
-        // Persistir
-        reclamacao.persist();
-
-        LOG.infof("Reclamação criada com protocolo: %s", reclamacao.getProtocolo());
-
-        // Enviar email
-        mailService.enviarNotificacaoProtocolo(
-            reclamacao.getEmail(),
-            reclamacao.getProtocolo(),
-            reclamacao.getNome()
-        );
-
-        // Retornar resposta
         return Response
             .status(Response.Status.CREATED)
             .entity(ReclamacaoResponse.from(reclamacao))
