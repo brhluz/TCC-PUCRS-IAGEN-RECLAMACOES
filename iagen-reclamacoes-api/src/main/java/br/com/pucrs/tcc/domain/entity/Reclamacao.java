@@ -59,7 +59,14 @@ public class Reclamacao extends PanacheEntityBase {
         this.atualizadoEm = LocalDateTime.now();
     }
 
-    // Getters e Setters
+    public Long getIdReclamacao() {
+        return idReclamacao;
+    }
+
+    public void setIdReclamacao(Long idReclamacao) {
+        this.idReclamacao = idReclamacao;
+    }
+
     public String getProtocolo() {
         return protocolo;
     }
@@ -117,9 +124,15 @@ public class Reclamacao extends PanacheEntityBase {
     }
 
     public enum StatusReclamacao {
-        RECEBIDA,
-        EM_ATENDIMENTO,
-        FINALIZADO,
-        PENDENTE_TRIAGEM_HUMANA
+        RECEBIDA("Recebida"),
+        EM_ATENDIMENTO("Em Atendimento"),
+        FINALIZADO("Finalizado"),
+        PENDENTE_TRIAGEM_HUMANA("Pendente Triagem Humana");
+
+        private final String descricao;
+
+        StatusReclamacao(String descricao) {
+            this.descricao = descricao;
+        }
     }
 }
