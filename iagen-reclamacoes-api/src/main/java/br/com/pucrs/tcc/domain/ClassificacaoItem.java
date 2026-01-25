@@ -6,14 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ClassificacaoItem {
-    @NotBlank
     private Taxonomia.Departamento departamento;
 
-    @NotNull
     private Taxonomia.Categoria categoria;
 
-    @NotNull
-    @Size(max = 200)
     private String motivoExtraido;
 
     public ClassificacaoItem() {
