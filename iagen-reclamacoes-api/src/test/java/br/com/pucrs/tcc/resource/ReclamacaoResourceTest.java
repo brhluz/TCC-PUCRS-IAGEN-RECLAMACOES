@@ -1,16 +1,42 @@
 package br.com.pucrs.tcc.resource;
 
+import br.com.pucrs.tcc.domain.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
+import br.com.pucrs.tcc.domain.ai.Taxonomia;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @QuarkusTest
 public class ReclamacaoResourceTest {
+
+    @InjectMock
+    ReclamacaoAiService aiService;
+
+    @BeforeEach
+    void setupAiMock() {
+        ClassificacaoItem item = new ClassificacaoItem();
+        item.setDepartamento(Taxonomia.Departamento.ATENDIMENTO_CLIENTE);
+        item.setCategoria(Taxonomia.Categoria.ATRASO_ENTREGA);
+        item.setMotivoExtraido("Atraso na entrega");
+
+        ClassificacaoResponse response = new ClassificacaoResponse();
+        response.setClassificacoes(List.of(item));
+
+        when(aiService.classificar(anyString())).thenReturn(response);
+    }
 
     @Test
     public void deveCriarReclamacaoComSucesso() {

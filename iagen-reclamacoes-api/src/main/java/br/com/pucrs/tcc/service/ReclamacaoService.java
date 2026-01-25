@@ -1,11 +1,13 @@
 package br.com.pucrs.tcc.service;
 
+import br.com.pucrs.tcc.domain.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.repository.ReclamacaoRepository;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
 
 @ApplicationScoped
@@ -19,12 +21,17 @@ public class ReclamacaoService {
     @Inject
     ReclamacaoRepository reclamacaoRepository;
 
+    @Inject
+    ClassificacaoService classificacaoService;
+
     @Transactional
     public Reclamacao criar(ReclamacaoRequest request) {
+        Reclamacao reclamacao;
+
         LOG.infof("Criando reclamação para %s (%s)", request.getNome(), request.getEmail());
 
         // Criar entidade
-        Reclamacao reclamacao = new Reclamacao();
+        reclamacao = new Reclamacao();
         reclamacao.setNome(request.getNome());
         reclamacao.setEmail(request.getEmail());
         reclamacao.setDescricao(request.getDescricao());
@@ -41,6 +48,12 @@ public class ReclamacaoService {
             reclamacao.getProtocolo(),
             reclamacao.getNome()
         );
+
+        ClassificacaoResponse classificacaoResponse = classificacaoService.classificar(reclamacao.getDescricao(), reclamacao.getIdReclamacao());
+
+        if(classificacaoResponse.getClassificacoes() == null || classificacaoResponse.getClassificacoes().isEmpty()){
+            reclamacao.setStatus(Reclamacao.StatusReclamacao.PENDENTE_TRIAGEM_HUMANA);
+        }
 
         return reclamacao;
     }

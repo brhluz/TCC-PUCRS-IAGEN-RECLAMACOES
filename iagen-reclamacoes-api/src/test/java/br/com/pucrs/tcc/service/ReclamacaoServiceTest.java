@@ -1,19 +1,45 @@
 package br.com.pucrs.tcc.service;
 
+import br.com.pucrs.tcc.domain.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
+import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
+import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @QuarkusTest
 public class ReclamacaoServiceTest {
 
     @Inject
     ReclamacaoService reclamacaoService;
+
+    @InjectMock
+    ReclamacaoAiService aiService;
+
+    @BeforeEach
+    void setupAiMock() {
+        ClassificacaoItem item = new ClassificacaoItem();
+        item.setDepartamento(Taxonomia.Departamento.ATENDIMENTO_CLIENTE);
+        item.setCategoria(Taxonomia.Categoria.PRODUTO_COM_DEFEITO);
+        item.setMotivoExtraido("Produto com defeito");
+
+        ClassificacaoResponse response = new ClassificacaoResponse();
+        response.setClassificacoes(List.of(item));
+
+        when(aiService.classificar(anyString())).thenReturn(response);
+    }
 
     @Test
     @Transactional
