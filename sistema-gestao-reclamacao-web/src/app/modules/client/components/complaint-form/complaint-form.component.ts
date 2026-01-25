@@ -55,9 +55,13 @@ export class ComplaintFormComponent implements OnInit {
         this.submitting = false;
         this.router.navigate(['/client/success', response.protocol]);
       },
-      error: () => {
+      error: (error) => {
         this.submitting = false;
-        alert('Erro ao enviar reclamação. Tente novamente.');
+        const details =  error?.error?.message ?? error?.message ??  (typeof error?.error === 'string' ? error.error : JSON.stringify(error?.error ?? error));
+
+        alert(`Erro ao enviar reclamação. Tente novamente mais tarde. Detalhes: ${details}`);
+
+        console.error('Create complaint failed:', error);
       }
     });
   }
