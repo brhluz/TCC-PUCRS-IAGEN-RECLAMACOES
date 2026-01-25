@@ -25,8 +25,8 @@ public class ClassificacaoService {
     @Inject
     ReclamacaoAiService aiService;
 
-    @Inject
-    ClassificacaoRepository classificacaoRepository;
+//    @Inject
+//    ClassificacaoRepository classificacaoRepository;
 
     @Inject
     ReclamacaoRepository reclamacaoRepository;
@@ -72,7 +72,8 @@ public class ClassificacaoService {
                 classificacaoReclamacao.setCategoria(classificacaoItem.getCategoria());
                 classificacaoReclamacao.setMotivoExtraido(classificacaoItem.getMotivoExtraido());
 
-                classificacaoRepository.persist(classificacaoReclamacao);
+                reclamacao.getClassificacoes().add(classificacaoReclamacao);
+//                classificacaoRepository.persist(classificacaoReclamacao);
             }
 
             return response;

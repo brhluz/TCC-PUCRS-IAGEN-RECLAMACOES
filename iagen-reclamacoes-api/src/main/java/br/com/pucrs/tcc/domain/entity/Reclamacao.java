@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -41,6 +42,9 @@ public class Reclamacao extends PanacheEntityBase {
 
     @Column(name = "atualizado_em")
     private LocalDateTime atualizadoEm;
+
+    @OneToMany(mappedBy = "reclamacao", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ClassificacaoReclamacao> classificacoes;
 
     @PrePersist
     public void prePersist() {
@@ -121,6 +125,14 @@ public class Reclamacao extends PanacheEntityBase {
 
     public void setAtualizadoEm(LocalDateTime atualizadoEm) {
         this.atualizadoEm = atualizadoEm;
+    }
+
+    public List<ClassificacaoReclamacao> getClassificacoes() {
+        return classificacoes;
+    }
+
+    public void setClassificacoes(List<ClassificacaoReclamacao> classificacoes) {
+        this.classificacoes = classificacoes;
     }
 
     public enum StatusReclamacao {
