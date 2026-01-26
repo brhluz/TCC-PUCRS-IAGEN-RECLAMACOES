@@ -10,6 +10,7 @@ import java.util.Optional;
 public class ReclamacaoRepository implements PanacheRepositoryBase<Reclamacao, Long> {
 
     public Optional<Reclamacao> findByProtocolo(String protocolo) {
-        return find("protocolo", protocolo).firstResultOptional();
+        return find("from Reclamacao r left join fetch r.classificacoes where r.protocolo = ?1", protocolo)
+                .firstResultOptional();
     }
 }

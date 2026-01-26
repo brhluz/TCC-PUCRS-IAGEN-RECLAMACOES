@@ -1,6 +1,7 @@
 package br.com.pucrs.tcc.resource;
 
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.dto.ReclamacaoClassificadaDTO;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoClassificarRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
@@ -9,13 +10,12 @@ import br.com.pucrs.tcc.service.ClassificacaoService;
 import br.com.pucrs.tcc.service.ReclamacaoService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.jboss.logging.Logger;
+
+import java.util.UUID;
 
 @Path("/reclamacoes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -50,5 +50,13 @@ public class ReclamacaoResource {
         return Response
             .ok(classificacao)
             .build();
+    }
+
+    @GET
+    @Path("/{protocolo}")
+    public Response buscarPorProtocolo(@PathParam("protocolo") UUID protocolo) {
+        ReclamacaoClassificadaDTO reclamacaoClassificadaDTO = reclamacaoService.retornarReclamacaoClassificadaPorProtocolo(protocolo.toString());
+
+        return Response.ok(reclamacaoClassificadaDTO).build();
     }
 }

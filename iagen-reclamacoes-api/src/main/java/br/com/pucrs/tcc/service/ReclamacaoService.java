@@ -1,6 +1,7 @@
 package br.com.pucrs.tcc.service;
 
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.dto.ReclamacaoClassificadaDTO;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.repository.ReclamacaoRepository;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
@@ -57,4 +58,19 @@ public class ReclamacaoService {
 
         return reclamacao;
     }
+
+    public ReclamacaoClassificadaDTO retornarReclamacaoClassificadaPorProtocolo(String protocolo) {
+        ReclamacaoClassificadaDTO reclamacaoClassificadaDTO;
+        Reclamacao reclamacao = reclamacaoRepository.findByProtocolo(protocolo)
+                .orElseThrow(() -> new WebApplicationException("Reclamação não encontrada", 404));
+
+        reclamacaoClassificadaDTO = ReclamacaoClassificadaDTO.from(reclamacao);
+
+        if(!Reclamacao.StatusReclamacao.PENDENTE_TRIAGEM_HUMANA.equals(reclamacao.getStatus())){
+            reclamacaoClassificadaDTO.setClassificada(true);
+        }
+
+        return reclamacaoClassificadaDTO;
+    }
+
 }
