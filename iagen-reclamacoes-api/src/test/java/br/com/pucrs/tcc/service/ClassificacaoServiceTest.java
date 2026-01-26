@@ -1,7 +1,7 @@
 package br.com.pucrs.tcc.service;
 
-import br.com.pucrs.tcc.domain.ClassificacaoItem;
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
 import br.com.pucrs.tcc.domain.exception.ClassificacaoException;

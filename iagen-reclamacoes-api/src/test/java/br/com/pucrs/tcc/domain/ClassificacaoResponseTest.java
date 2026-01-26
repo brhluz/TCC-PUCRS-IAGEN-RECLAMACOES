@@ -1,5 +1,7 @@
 package br.com.pucrs.tcc.domain;
 
+import br.com.pucrs.tcc.domain.ai.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import org.junit.jupiter.api.Test;
 

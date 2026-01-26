@@ -1,9 +1,4 @@
-package br.com.pucrs.tcc.domain;
-
-import br.com.pucrs.tcc.domain.ai.Taxonomia;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+package br.com.pucrs.tcc.domain.ai;
 
 public class ClassificacaoItem {
     private Taxonomia.Departamento departamento;

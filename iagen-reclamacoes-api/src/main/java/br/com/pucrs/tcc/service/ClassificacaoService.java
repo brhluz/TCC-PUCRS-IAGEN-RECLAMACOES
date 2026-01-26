@@ -1,21 +1,18 @@
 package br.com.pucrs.tcc.service;
 
-import br.com.pucrs.tcc.domain.ClassificacaoItem;
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
 import br.com.pucrs.tcc.domain.entity.ClassificacaoReclamacao;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.domain.exception.ClassificacaoException;
-import br.com.pucrs.tcc.repository.ClassificacaoRepository;
 import br.com.pucrs.tcc.repository.ReclamacaoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 @ApplicationScoped
 public class ClassificacaoService {

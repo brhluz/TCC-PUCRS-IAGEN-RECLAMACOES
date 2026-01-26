@@ -1,12 +1,11 @@
 package br.com.pucrs.tcc.resource;
 
-import br.com.pucrs.tcc.domain.ClassificacaoItem;
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoItem;
+import br.com.pucrs.tcc.domain.ai.ClassificacaoResponse;
 import br.com.pucrs.tcc.domain.ai.ReclamacaoAiService;
 import br.com.pucrs.tcc.domain.ai.Taxonomia;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

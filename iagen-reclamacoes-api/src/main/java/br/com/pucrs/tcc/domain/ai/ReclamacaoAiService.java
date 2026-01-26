@@ -1,6 +1,5 @@
 package br.com.pucrs.tcc.domain.ai;
 
-import br.com.pucrs.tcc.domain.ClassificacaoResponse;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
