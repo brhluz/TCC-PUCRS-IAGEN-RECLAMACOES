@@ -41,7 +41,7 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
         // outros 4xx
         return Response.status(status)
                 .type(MediaType.APPLICATION_JSON)
-                .entity(new ApiError("ERRO_AO_CHAMAR_IA", "Falha ao chamar provedor de IA."))
+                .entity(new ApiError("ERRO_AO_CHAMAR_SERVICO", ex.getMessage()))
                 .build();
     }
 }

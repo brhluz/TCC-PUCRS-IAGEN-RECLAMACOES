@@ -1,5 +1,6 @@
 package br.com.pucrs.tcc.domain.dto;
 
+import br.com.pucrs.tcc.domain.entity.ClassificacaoReclamacao;
 import br.com.pucrs.tcc.domain.entity.Reclamacao;
 
 import java.time.LocalDateTime;
@@ -11,15 +12,15 @@ public class ReclamacaoClassificadaDTO {
     private String protocolo;
     private String descricao;
     private boolean classificada;
-    private Map<String, List<String>> categoriasPorDepartamento;
+    private List<ClassificacoesDTO> categoriasPorDepartamento;
     private LocalDateTime ultimaAtualizacao;
     private String statusAtendimento;
 
-    public Map<String, List<String>> getCategoriasPorDepartamento() {
+    public List<ClassificacoesDTO> getCategoriasPorDepartamento() {
         return categoriasPorDepartamento;
     }
 
-    public void setCategoriasPorDepartamento(Map<String, List<String>> categoriasPorDepartamento) {
+    public void setCategoriasPorDepartamento(List<ClassificacoesDTO> categoriasPorDepartamento) {
         this.categoriasPorDepartamento = categoriasPorDepartamento;
     }
 
@@ -71,14 +72,13 @@ public class ReclamacaoClassificadaDTO {
         dto.setUltimaAtualizacao(reclamacao.getAtualizadoEm());
         dto.setStatusAtendimento(reclamacao.getStatus().name());
 
-        if (reclamacao.getClassificacoes() != null) {
-            Map<String, List<String>> mapa = reclamacao.getClassificacoes().stream()
-                    .collect(Collectors.groupingBy(
-                            c -> c.getDepartamento().getDescricao(),
-                            Collectors.mapping(c -> c.getCategoria().getDescricao(), Collectors.toList())
-                    ));
-            dto.setCategoriasPorDepartamento(mapa);
+        if (reclamacao.getClassificacoes() != null && !reclamacao.getClassificacoes().isEmpty()) {
+            dto.setCategoriasPorDepartamento(reclamacao.getClassificacoes().stream()
+                    .filter(c -> c.getDepartamento() != null && c.getCategoria() != null)
+                    .map(c -> new ClassificacoesDTO(c.getDepartamento().getDescricao(), c.getCategoria().getDescricao()))
+                    .collect(Collectors.toList()));
         }
+
         return dto;
     }
 }

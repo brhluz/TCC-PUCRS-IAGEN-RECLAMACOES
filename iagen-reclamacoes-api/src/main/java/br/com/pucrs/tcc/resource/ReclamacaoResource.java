@@ -6,6 +6,7 @@ import br.com.pucrs.tcc.domain.entity.Reclamacao;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoClassificarRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoRequest;
 import br.com.pucrs.tcc.resource.dto.ReclamacaoResponse;
+import br.com.pucrs.tcc.resource.exceptionmapper.ApiError;
 import br.com.pucrs.tcc.service.ClassificacaoService;
 import br.com.pucrs.tcc.service.ReclamacaoService;
 import jakarta.inject.Inject;
@@ -54,9 +55,16 @@ public class ReclamacaoResource {
 
     @GET
     @Path("/{protocolo}")
-    public Response buscarPorProtocolo(@PathParam("protocolo") UUID protocolo) {
-        ReclamacaoClassificadaDTO reclamacaoClassificadaDTO = reclamacaoService.retornarReclamacaoClassificadaPorProtocolo(protocolo.toString());
+    public Response buscarPorProtocolo(@PathParam("protocolo") String protocolo) {
+        try {
+            UUID uuid = UUID.fromString(protocolo);
 
-        return Response.ok(reclamacaoClassificadaDTO).build();
+            ReclamacaoClassificadaDTO dto = reclamacaoService.retornarReclamacaoClassificadaPorProtocolo(uuid.toString());
+            return Response.ok(dto).build();
+        } catch (IllegalArgumentException e) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new ApiError("FORMATO_INVALIDO", "O protocolo fornecido não é um UUID válido."))
+                    .build();
+        }
     }
 }

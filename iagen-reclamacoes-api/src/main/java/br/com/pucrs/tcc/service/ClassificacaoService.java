@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import org.jboss.logging.Logger;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 @ApplicationScoped
@@ -60,6 +61,7 @@ public class ClassificacaoService {
             }
 
             Reclamacao reclamacao = reclamacaoRepository.findById(idReclamacao);
+            reclamacao.setClassificacoes(new ArrayList<>());
 
             for(ClassificacaoItem classificacaoItem : response.getClassificacoes()){
 
