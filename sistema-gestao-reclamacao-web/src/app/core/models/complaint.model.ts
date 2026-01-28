@@ -1,14 +1,15 @@
 export interface Complaint {
   id?: string;
   protocol?: string;
-  customerName: string;
-  customerEmail: string;
+  customerName?: string;
+  customerEmail?: string;
   description: string;
   status: ComplaintStatus;
   aiCategory?: string;
   createdAt?: Date;
   updatedAt?: Date;
   resolution?: string;
+  classificada?: boolean;
   forwardedDepartments?: {
     department: string;
     extractedReason: string;

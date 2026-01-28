@@ -48,30 +48,6 @@ export class ComplaintService {
     }
   ];
 
-  private mockComplaintsV2: Complaint[] = [
-    {
-      id: '1',
-      protocol: 'abdadda7-213f-403c-bbdf-1ce2c1e54cf6',
-      customerName: 'Maria da Silva',
-      customerEmail: 'maria@email.com',
-      description: 'O tênis chegou com a cor errada e ninguém me responde no chat há dois dias.',
-      status: ComplaintStatus.IN_PROGRESS,
-      aiCategory: 'Produto errado / Demora no atendimento ou no retorno',
-      forwardedDepartments: [
-        {
-          department: 'Logística',
-          extractedReason: 'Tênis entregue com a cor errada.'
-        },
-        {
-          department: 'Atendimento ao cliente',
-          extractedReason: 'Ninguém responde no chat há dois dias.'
-        }
-      ],
-      createdAt: new Date('2025-01-04T09:00:00'),
-      updatedAt: new Date('2025-01-04T14:30:00')
-    }
-  ];
-
   constructor(private http: HttpClient) {}
 
   getComplaints(filters?: any): Observable<Complaint[]> {
@@ -94,8 +70,30 @@ export class ComplaintService {
   }
 
   getComplaintsV2ByProtocol(protocol: string): Observable<Complaint | undefined> {
-    const complaint = this.mockComplaintsV2.find(c => c.protocol === protocol);
-    return of(complaint).pipe(delay(300));
+    return this.http.get<any>(`${this.apiUrl}/reclamacoes/${protocol}`).pipe(
+      map(dto => {
+        const forwardedDepartments = dto.categoriasPorDepartamento?.map((classif: any) => ({
+          department: classif.departamento,
+          extractedReason: classif.categorias
+        })) || [];
+
+        const aiCategory = dto.categoriasPorDepartamento && dto.categoriasPorDepartamento.length > 0
+          ? dto.categoriasPorDepartamento.map((c: any) => c.categorias).join(' / ')
+          : 'Não classificada';
+
+        return {
+          id: dto.protocolo,
+          protocol: dto.protocolo,
+          description: dto.descricao,
+          classificada: dto.classificada,
+          status: this.mapStatus(dto.statusAtendimento),
+          aiCategory: aiCategory,
+          forwardedDepartments: forwardedDepartments,
+          createdAt: new Date(dto.ultimaAtualizacao),
+          updatedAt: new Date(dto.ultimaAtualizacao)
+        };
+      })
+    );
   }
 
   createComplaint(complaint: Partial<Complaint>): Observable<Complaint> {
