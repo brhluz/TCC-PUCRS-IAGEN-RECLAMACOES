@@ -1,0 +1,43 @@
+<div class="status-container" *ngIf="!loading && complaint as c">
+  <div class="container">
+    <div class="status-header">
+      <div class="status-badge">{{ c.status }}</div>
+      <div class="status-title">Protocolo {{ c.protocol }}</div>
+      <div class="status-subtitle">Última atualização: {{ formatShortDate(c.updatedAt) }}</div>
+    </div>
+
+
+    <div class="content">
+      <div class="info-group">
+        <div class="label">Categoria Identificada</div>
+        <div class="value">{{ c.aiCategory }}</div>
+        <div class="ai-tag"><span class="ai-icon">✨</span> Classificado via IA</div>
+      </div>
+
+      <div class="info-group">
+        <div class="label">Sua Reclamação</div>
+        <div class="value">"{{ c.description }}"</div>
+      </div>
+
+      <div class="info-group">
+        <div class="label">Solicitação Encaminhada</div>
+        <div class="timeline">
+          <div class="timeline-item" *ngFor="let forwarding of forwardedDepartments">
+            <div class="dot"></div>
+            <div class="timeline-content">
+              <h4>{{ forwarding.department }}</h4>
+              <span>{{ forwarding.extractedReason }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-group" *ngIf="c.resolution">
+        <div class="label">Resolução</div>
+        <div class="value resolution">{{ c.resolution }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading">Carregando status...</div>

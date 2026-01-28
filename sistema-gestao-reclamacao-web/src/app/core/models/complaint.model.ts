@@ -5,11 +5,14 @@ export interface Complaint {
   customerEmail: string;
   description: string;
   status: ComplaintStatus;
-  category?: string;
   aiCategory?: string;
   createdAt?: Date;
   updatedAt?: Date;
   resolution?: string;
+  forwardedDepartments?: {
+    department: string;
+    extractedReason: string;
+  }[];
 }
 
 export enum ComplaintStatus {

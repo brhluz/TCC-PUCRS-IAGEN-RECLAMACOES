@@ -19,7 +19,7 @@ export class ComplaintSuccessComponent implements OnInit {
   }
 
   viewStatus(): void {
-    this.router.navigate(['/client/status', this.protocol]);
+    this.router.navigate(['/client/statusv2', this.protocol]);
   }
 
   goHome(): void {

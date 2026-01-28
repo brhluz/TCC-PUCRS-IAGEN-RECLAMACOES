@@ -48,6 +48,30 @@ export class ComplaintService {
     }
   ];
 
+  private mockComplaintsV2: Complaint[] = [
+    {
+      id: '1',
+      protocol: 'abdadda7-213f-403c-bbdf-1ce2c1e54cf6',
+      customerName: 'Maria da Silva',
+      customerEmail: 'maria@email.com',
+      description: 'O tênis chegou com a cor errada e ninguém me responde no chat há dois dias.',
+      status: ComplaintStatus.IN_PROGRESS,
+      aiCategory: 'Produto errado / Demora no atendimento ou no retorno',
+      forwardedDepartments: [
+        {
+          department: 'Logística',
+          extractedReason: 'Tênis entregue com a cor errada.'
+        },
+        {
+          department: 'Atendimento ao cliente',
+          extractedReason: 'Ninguém responde no chat há dois dias.'
+        }
+      ],
+      createdAt: new Date('2025-01-04T09:00:00'),
+      updatedAt: new Date('2025-01-04T14:30:00')
+    }
+  ];
+
   constructor(private http: HttpClient) {}
 
   getComplaints(filters?: any): Observable<Complaint[]> {
@@ -66,6 +90,11 @@ export class ComplaintService {
 
   getComplaintByProtocol(protocol: string): Observable<Complaint | undefined> {
     const complaint = this.mockComplaints.find(c => c.protocol === protocol);
+    return of(complaint).pipe(delay(300));
+  }
+
+  getComplaintsV2ByProtocol(protocol: string): Observable<Complaint | undefined> {
+    const complaint = this.mockComplaintsV2.find(c => c.protocol === protocol);
     return of(complaint).pipe(delay(300));
   }
 
@@ -115,17 +144,4 @@ export class ComplaintService {
     }
   }
 
-  private classifyWithAI(description: string): string {
-    const lowerDesc = description.toLowerCase();
-
-    if (lowerDesc.includes('entrega') || lowerDesc.includes('rastreio') || lowerDesc.includes('atraso')) {
-      return 'Logística / Atraso';
-    } else if (lowerDesc.includes('cobrança') || lowerDesc.includes('valor') || lowerDesc.includes('fatura')) {
-      return 'Financeiro / Cobrança';
-    } else if (lowerDesc.includes('defeito') || lowerDesc.includes('quebrado') || lowerDesc.includes('danificado')) {
-      return 'Produto / Defeito';
-    } else {
-      return 'Geral / Outros';
-    }
-  }
 }
