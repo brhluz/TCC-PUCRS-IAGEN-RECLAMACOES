@@ -34,14 +34,20 @@ export class ComplaintStatusComponentV2 implements OnInit {
     this.loading = true;
     this.complaintService.getComplaintsV2ByProtocol(protocol).subscribe({
       next: (data) => {
+        console.table(data);
         this.complaint = data || null;
         if (this.complaint) {
           this.buildForwardedDepartments();
         }
         this.loading = false;
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
+        const details =  error?.error?.message ?? error?.message ??  (typeof error?.error === 'string' ? error.error : JSON.stringify(error?.error ?? error));
+
+        alert(`Erro ao enviar reclamação. Tente novamente mais tarde. Detalhes: ${details}`);
+
+        console.error('Create complaint failed:', error);
       }
     });
   }

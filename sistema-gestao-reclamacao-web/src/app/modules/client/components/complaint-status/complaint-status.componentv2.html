@@ -11,7 +11,8 @@
       <div class="info-group">
         <div class="label">Categoria Identificada</div>
         <div class="value">{{ c.aiCategory }}</div>
-        <div class="ai-tag"><span class="ai-icon">✨</span> Classificado via IA</div>
+        <div class="ai-tag" *ngIf="c.classificada" ><span class="ai-icon">✨</span> Classificado via IA</div>
+        <div class="triage-tag" *ngIf="!c.classificada" >Aguardando triagem</div>
       </div>
 
       <div class="info-group">
