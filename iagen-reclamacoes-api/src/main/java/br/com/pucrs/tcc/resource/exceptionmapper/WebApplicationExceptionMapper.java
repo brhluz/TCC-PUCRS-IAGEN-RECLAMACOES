@@ -16,7 +16,6 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
         int status = ex.getResponse() != null ? ex.getResponse().getStatus() : 500;
 
         if (status == 429) {
-            // você pode setar Retry-After fixo (ou parsear do corpo se quiser evoluir)
             return Response.status(429)
                     .type(MediaType.APPLICATION_JSON)
                     .header("Retry-After", "20")
