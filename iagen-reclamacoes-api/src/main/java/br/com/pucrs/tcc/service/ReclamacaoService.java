@@ -17,9 +17,6 @@ public class ReclamacaoService {
     private static final Logger LOG = Logger.getLogger(ReclamacaoService.class);
 
     @Inject
-    MailService mailService;
-
-    @Inject
     ReclamacaoRepository reclamacaoRepository;
 
     @Inject
@@ -42,13 +39,6 @@ public class ReclamacaoService {
 
 
         LOG.infof("Reclamação criada com protocolo: %s", reclamacao.getProtocolo());
-
-        // Enviar notificação
-        mailService.enviarNotificacaoProtocolo(
-            reclamacao.getEmail(),
-            reclamacao.getProtocolo(),
-            reclamacao.getNome()
-        );
 
         ClassificacaoResponse classificacaoResponse = classificacaoService.classificar(reclamacao.getDescricao(), reclamacao.getIdReclamacao());
 

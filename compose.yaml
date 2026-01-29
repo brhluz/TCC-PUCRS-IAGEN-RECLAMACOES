@@ -1,5 +1,18 @@
 include:
   - path: ./iagen-reclamacoes-api/compose.yaml
     project_directory: ./iagen-reclamacoes-api
-  #- path: ./sistema-gestao-reclamacao-web/compose.yaml
-  #  project_directory: ./sistema-gestao-reclamacao-web
+  - path: ./sistema-gestao-reclamacao-web/compose.yaml
+    project_directory: ./sistema-gestao-reclamacao-web
+
+services:
+  startup-banner:
+      image: alpine
+      container_name: iagen-startup-msg
+      depends_on:
+        back:
+          condition: service_healthy
+      command: >
+        sh -c "echo '==================================================' &&
+              echo ' PROJETO CARREGADO COM SUCESSO!' &&
+              echo 'Acesse o sistema em: http://localhost' &&
+              echo '=================================================='"

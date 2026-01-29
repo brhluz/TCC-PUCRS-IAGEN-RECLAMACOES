@@ -1,17 +1,22 @@
 # ===== build stage =====
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /project
 
-COPY pom.xml .
-RUN mvn -B -e -DskipTests dependency:go-offline
+# 1. Copia os arquivos do wrapper primeiro para aproveitar o cache do Docker
+COPY .mvn/ .mvn/
+COPY mvnw pom.xml ./
+# Torna o script executável e baixa as dependências
+RUN chmod +x mvnw && ./mvnw -B -e -DskipTests dependency:go-offline
 
+# 2. Copia o código fonte e gera o pacote
 COPY src ./src
-RUN mvn -B -e clean package
+RUN ./mvnw -B -e clean package
 
 # ===== runtime stage =====
 FROM registry.access.redhat.com/ubi8/openjdk-17:1.23
 ENV LANGUAGE='en_US:en'
 
+# Copia os artefatos gerados pelo Quarkus
 COPY --from=build --chown=185 /project/target/quarkus-app/lib/ /deployments/lib/
 COPY --from=build --chown=185 /project/target/quarkus-app/*.jar /deployments/
 COPY --from=build --chown=185 /project/target/quarkus-app/app/ /deployments/app/

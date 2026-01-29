@@ -11,8 +11,8 @@
       <div class="info-group">
         <div class="label">Categoria Identificada</div>
         <div class="value">{{ c.aiCategory }}</div>
-        <div class="ai-tag" *ngIf="c.classificada" ><span class="ai-icon">✨</span> Classificado via IA</div>
-        <div class="triage-tag" *ngIf="!c.classificada" >Aguardando triagem</div>
+        <div class="ai-tag" *ngIf="c.classificada"><span class="ai-icon">✨</span> Classificado via IA</div>
+        <div class="triage-tag" *ngIf="!c.classificada">Aguardando triagem</div>
       </div>
 
       <div class="info-group">
@@ -20,23 +20,30 @@
         <div class="value">"{{ c.description }}"</div>
       </div>
 
-      <div class="info-group">
-        <div class="label">Solicitação Encaminhada</div>
-        <div class="timeline">
-          <div class="timeline-item" *ngFor="let forwarding of forwardedDepartments">
-            <div class="dot"></div>
-            <div class="timeline-content">
-              <h4>{{ forwarding.department }}</h4>
-              <span>{{ forwarding.extractedReason }}</span>
+      <div *ngIf="c.classificada">
+        <div class="info-group">
+          <div class="label">Solicitação Encaminhada</div>
+          <div class="timeline">
+            <div class="timeline-item" *ngFor="let forwarding of forwardedDepartments">
+              <div class="dot"></div>
+              <div class="timeline-content">
+                <h4>{{ forwarding.department }}</h4>
+                <span>{{ forwarding.extractedReason }}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="info-group" *ngIf="c.resolution">
-        <div class="label">Resolução</div>
-        <div class="value resolution">{{ c.resolution }}</div>
+        <div class="info-group" *ngIf="c.resolution">
+          <div class="label">Resolução</div>
+          <div class="value resolution">{{ c.resolution }}</div>
+        </div>
       </div>
+    </div>
+    <div class="back-container">
+      <button class="back-button" (click)="goToBegin()">
+        Nova reclamação
+      </button>
     </div>
   </div>
 </div>

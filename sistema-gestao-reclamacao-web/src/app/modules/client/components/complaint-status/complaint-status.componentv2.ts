@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ComplaintService } from 'src/app/core/services/complaint.service';
 import { Complaint } from 'src/app/core/models/complaint.model';
 
@@ -20,9 +21,10 @@ export class ComplaintStatusComponentV2 implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private complaintService: ComplaintService
+    private complaintService: ComplaintService,
+    private router: Router
   ) {}
-
+    
   ngOnInit(): void {
     const protocol = this.route.snapshot.paramMap.get('protocol');
     if (protocol) {
@@ -71,4 +73,8 @@ export class ComplaintStatusComponentV2 implements OnInit {
     
     return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()} às ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
   }
+
+  goToBegin(): void {
+  this.router.navigate(['/']);
+}
 }
