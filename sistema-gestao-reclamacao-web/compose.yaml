@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend-angular
+    ports:
+      - "80:80"
+    depends_on:
+      - back
