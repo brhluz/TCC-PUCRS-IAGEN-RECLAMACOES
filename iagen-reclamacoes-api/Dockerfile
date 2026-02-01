@@ -5,8 +5,9 @@ WORKDIR /project
 # 1. Copia os arquivos do wrapper primeiro para aproveitar o cache do Docker
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
+
 # Torna o script executável e baixa as dependências
-RUN chmod +x mvnw && ./mvnw -B -e -DskipTests dependency:go-offline
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw -B -e -DskipTests dependency:go-offline
 
 # 2. Copia o código fonte e gera o pacote
 COPY src ./src
