@@ -72,6 +72,9 @@ public class Taxonomia {
         @Description("Demora ou erro na devolução do dinheiro")
         DIFICULDADE_ESTORNO(Departamento.FINANCEIRO, "Dificuldade em obter estorno nos pagamentos"),
 
+        @Description("Solicitado estorno de pagamento pelo cliente")
+        ESTORNO_PAGAMENTO(Departamento.FINANCEIRO, "Solicitacao de estorno de pagamento"),
+
         @Description("Erro ao processar cartão ou boleto")
         DIFICULDADE_PAGAMENTO(Departamento.FINANCEIRO, "Dificuldade em realizar o pagamento");
 
