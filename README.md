@@ -62,7 +62,7 @@ Recomendado:
 
 ## Configuração de ambiente
 
-Para executar a aplicação, é necessário criar um arquivo `.env` na raiz do projeto.
+Para executar a aplicação, é necessário criar um arquivo `.env` na raiz do projeto do sistema backend Quarkus, ***exemplo: .\iagen-reclamacoes-api\\.env***
 
 Conforme descrito no Trabalho de Conclusão de Curso, este repositório contém **exclusivamente um modelo de arquivo `.env` de exemplo**, sem credenciais sensíveis, com o objetivo de orientar a configuração do ambiente pela parte interessada.
 
