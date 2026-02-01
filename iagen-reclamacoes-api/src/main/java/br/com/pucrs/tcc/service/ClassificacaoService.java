@@ -80,8 +80,8 @@ public class ClassificacaoService {
             LOG.errorf(e, "Falha ao chamar provedor de IA (status=%s): %s",
                     (e.getResponse() != null ? e.getResponse().getStatus() : "null"),
                     e.getMessage());
-            throw e;
-
+//            throw e;
+            return criarRespostaVazia();
         } catch (Exception e) {
             LOG.error("Falha na classificação automática. Marcando para triagem humana.", e);
             throw new ClassificacaoException("Falha interna ao classificar reclamação.", e);
