@@ -172,9 +172,12 @@ Caso a variável `QUARKUS_LANGCHAIN4J_GEMINI_API_KEY` não esteja configurada, e
 2. Realizar Login com conta google
 3. Acessar o link https://aistudio.google.com/api-keys ou cliar em "Get Api Key"
 4. Clicar em "Criar Chave de API" conforme imagem:
-5. Dar um nome para a chave e atrela a um projeto, conforme imagem
+   ![Tela Google AI Studio – criação da API Key](tela%20google%20ai%20studio%2C%20api%20key.png)
+6. Dar um nome para a chave e atrela a um projeto, conforme imagem:
+   
+   ![tela google ai studio, nome chave e escolher projeto](tela%20google%20ai%20studio%2C%20nome%20chave%20e%20escolher%20projeto.png)
       - ***OBS:*** Se não houver projetos, criar um, seguindo o formulário após clicar em "+ Criar projeto"
-6. Após isto, copiar a chave e utilizar como valor no arquivo .env, no properties ***QUARKUS_LANGCHAIN4J_GEMINI_API_KEY***
+8. Após isto, copiar a chave e utilizar como valor no arquivo .env, no properties ***QUARKUS_LANGCHAIN4J_GEMINI_API_KEY***
 ---
 
 ## Autor
