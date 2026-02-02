@@ -64,8 +64,6 @@ Recomendado:
 
 Para executar a aplicação, é necessário criar um arquivo `.env` na raiz do projeto do sistema backend Quarkus, ***exemplo: .\iagen-reclamacoes-api\\.env***
 
-Conforme descrito no Trabalho de Conclusão de Curso, este repositório contém **exclusivamente um modelo de arquivo `.env` de exemplo**, sem credenciais sensíveis, com o objetivo de orientar a configuração do ambiente pela parte interessada.
-
 ### Exemplo de arquivo `.env` (modelo comentado)
 
 ```
@@ -109,12 +107,6 @@ QUARKUS_DATASOURCE_PASSWORD=admin
 # Deve ser obtida no Google AI Studio
 QUARKUS_LANGCHAIN4J_GEMINI_API_KEY=PUT_YOUR_API_KEY_HERE
 ```
-
-***Importante ao avaliador PUC-RS:***
-
-- No contexto acadêmico, o arquivo `.env` efetivamente utilizado na homologação e validação da solução encontra-se documentado no relatório técnico do TCC, de acesso restrito à instituição.
-
----
 
 ## Como executar a aplicação
 
