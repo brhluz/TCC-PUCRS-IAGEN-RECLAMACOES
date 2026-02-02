@@ -64,7 +64,7 @@ Recomendado:
 
 Para executar a aplicação, é necessário criar um arquivo `.env` na raiz do projeto do sistema backend Quarkus (Api), ***Exemplo: .\iagen-reclamacoes-api\\.env***
 
-### Exemplo de arquivo `.env` (modelo comentado)
+### Exemplo de arquivo `.env`
 
 ```
 # =========================================================
