@@ -29,7 +29,6 @@ A aplicação é composta pelos seguintes elementos:
 - TypeScript
 - PostgreSQL
 - Docker
-- Docker Compose
 - Nginx
 
 ---
@@ -52,7 +51,6 @@ TCC-PUCRS-IAGEN-RECLAMACOES/
 Para execução da aplicação em ambiente local, são necessários os seguintes requisitos:
 
 - Docker (versão atualizada)
-- Docker Compose (plugin do Docker)
 
 Recomendado:
 - Git (para clonagem do repositório)
@@ -117,7 +115,7 @@ git clone https://github.com/brhluz/TCC-PUCRS-IAGEN-RECLAMACOES.git
  ***Em casos de falha neste comando acima, baixar o projeto em zip pelo github clicando em "Download Zip".***
  ***Extraia e prossiga abaixo***
 
-B. Com o Docker e o Docker Compose instalados, execute o comando abaixo na raiz do projeto:
+B. Com o Docker instalado, execute o comando abaixo na raiz do projeto:
 
 ```
 docker compose up --build
